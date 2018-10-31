@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Forecast</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="weather.css">
+</head>
+
+<body>
+
+    <header class="container">
+        <h1 class="current-header">Current</h1>
+        <h1 class="forecast-header">Forecast</h1>
+    </header>
+    <div class="jumbotron"></div>
+
+
+    <div id="app">
+        <div class="search-engine">
+            <h2>Change Location...</h2>
+            <input id="city" @keyup.enter="getWeatherData()" type="text" v-model="city" placeholder="City Name" onfocus="this.value=''" autocomplete="off" />
+        </div>
+
+        <div v-if="show">
+            <div class="container flex-container-left">
+                <div v-for="weather in currentDay">
+                    <div class="city">{{name}}</div>
+                    <div class="temperature-container">
+                        <div class="temperature-celsius">{{weather.temp + '&#176;'}}</div>
+                        <p class="celsius-sign">Celsius</p>
+                    </div>
+                    <div class="temperature-container">
+                        <div class="temperature-fahrenheit">{{weather.temp2 + '&#176;'}}</div>
+                        <p class="fahrenheit-sign">Fahrenheit</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container flex-container-right">
+                <div v-for="weather in nextDays">
+                    <div class="max-temperature">Max: {{weather.max + '&#176;'}}</div>
+                    <div class="min-temperature">Min: {{weather.min + '&#176;'}}</div>
+                    <div class="humidity">Humidity: {{weather.humidity + '%'}}</div>
+                    <div class="clouds">Clouds: {{weather.clouds + '%'}}
+                        <span v-if="weather.clouds > 50 && weather.humidity < 95">
+                            <img class="cloudy-image" alt="cloudy image" src="cloud-icon.png">
+                        </span>
+                        <span v-else-if="weather.clouds < 25">
+                            <img class="sunny-image" alt="sunny image" src="Sunny.png">
+                        </span>
+                        <span v-else-if="weather.humidity > 95 && weather.clouds > 80">
+                            <img class="rainy-image" alt="rainy image" src="cloud.rain.ico">
+                        </span>
+                        <span v-else>
+                            <img class="sunny-cloudy-image" alt="sunny/cloudy image" src="Sun.small.cloud.png">
+                        </span>
+                    </div>
+                    <div class="wind">Wind: {{weather.wind}} mph</div>
+                </div>
+                <div class="dates">
+                    <p class="today-text">Today</p>
+                    <p class="day2-text">48H</p>
+                    <p class="day3-text">72H</p>
+                </div>
+            </div>
+        </div>
+        <div class="alert" v-if="appear">City not found!</div>
+    </div>
+    <footer>
+        <div class="jumbotron fixed-bottom container"></div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.2/dist/jquery.fancybox.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="weather.js"></script>
+
+</body>
+
+</html>
